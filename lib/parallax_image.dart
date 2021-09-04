@@ -65,9 +65,7 @@ class ParallaxImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    final scrollPosition = (controller != null)
-        ? controller!.position
-        : Scrollable.of(context)!.position;
+    final scrollPosition = (controller != null) ? controller!.position : Scrollable.of(context)!.position;
     final constraints = (scrollPosition.axis == Axis.vertical)
         ? new BoxConstraints(minHeight: extent)
         : new BoxConstraints(minWidth: extent);
@@ -209,8 +207,7 @@ class _RenderParallax extends RenderProxyBox {
     // TODO: Might be a good idea to provide a way to customize this logic.
     Alignment alignment;
     if (_scrollPosition.axis == Axis.vertical) {
-      double value =
-          (_position!.dy / _screenSize.height - 0.5).clamp(-1.0, 1.0);
+      double value = (_position!.dy / _screenSize.height - 0.5).clamp(-1.0, 1.0);
       alignment = new Alignment(0.0, value);
     } else {
       double value = (_position!.dx / _screenSize.width - 0.5).clamp(-1.0, 1.0);
@@ -231,9 +228,7 @@ class _RenderParallax extends RenderProxyBox {
   Decoration? _decoration;
 
   BoxFit get fit {
-    return (_scrollPosition.axis == Axis.vertical)
-        ? BoxFit.fitWidth
-        : BoxFit.fitHeight;
+    return BoxFit.cover;
   }
 
   @override
@@ -265,8 +260,7 @@ class _RenderParallax extends RenderProxyBox {
       _position = pos;
     }
     _painter ??= decoration!.createBoxPainter(markNeedsPaint);
-    final ImageConfiguration filledConfiguration =
-        configuration.copyWith(size: size);
+    final ImageConfiguration filledConfiguration = configuration.copyWith(size: size);
     int? debugSaveCount;
     assert(() {
       debugSaveCount = context.canvas.getSaveCount();
@@ -275,8 +269,7 @@ class _RenderParallax extends RenderProxyBox {
     _painter!.paint(context.canvas, offset, filledConfiguration);
     assert(() {
       if (debugSaveCount != context.canvas.getSaveCount()) {
-        throw new FlutterError(
-            '${decoration.runtimeType} painter had mismatching save and restore calls.\n'
+        throw new FlutterError('${decoration.runtimeType} painter had mismatching save and restore calls.\n'
             'Before painting the decoration, the canvas save count was $debugSaveCount. '
             'After painting it, the canvas save count was ${context.canvas.getSaveCount()}. '
             'Every call to save() or saveLayer() must be matched by a call to restore().\n'
@@ -295,11 +288,9 @@ class _RenderParallax extends RenderProxyBox {
   void debugFillProperties(DiagnosticPropertiesBuilder description) {
     super.debugFillProperties(description);
 
-    description.add(new DiagnosticsProperty<ScrollPosition>(
-        'scrollPosition', _scrollPosition));
+    description.add(new DiagnosticsProperty<ScrollPosition>('scrollPosition', _scrollPosition));
     description.add(new DiagnosticsProperty<Size>('screenSize', _screenSize));
     description.add(_decoration!.toDiagnosticsNode(name: 'decoration'));
-    description.add(new DiagnosticsProperty<ImageConfiguration>(
-        'configuration', configuration));
+    description.add(new DiagnosticsProperty<ImageConfiguration>('configuration', configuration));
   }
 }
